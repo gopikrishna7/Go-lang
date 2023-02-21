@@ -10,31 +10,28 @@ func main() {
 	const totalTickets int = 50
 	var remainTickets uint = 50
 	// uint is for positive numbers , so we can not assign a negative value later.
-	fmt.Println("Welcome to ", applicationName)
-	fmt.Printf("we have total of %v tickets , available tickets are %v\n", totalTickets, remainTickets)
-
+	greet(applicationName, totalTickets, remainTickets)
 	//var bookings = []string{}
 	var bookings []string
-
 	var userName string
 	var userTickets uint
+
 	for {
 
-		fmt.Println("Enter your name:")
+		fmt.Println("Enter your team name:")
 		fmt.Scan(&userName)
-		// isValidName := len(userName) > 3
-		// if !isValidName {
-		// 	fmt.Println("Enter the name having greater than 3 chars")
-		// 	continue
-		// }
+
+		var isValidName bool = checkvalidname(userName)
+		// isValidName := checkvalidname(userName)
+		if !isValidName {
+			fmt.Println("Enter the name having greater than 3 chars")
+			continue
+		}
+
 		fmt.Println("How many tickets you need:")
 		fmt.Scan(&userTickets)
 
-		if userTickets < 0 {
-			fmt.Println(" enter positive number")
-		}
-
-		isValidTickets := userTickets < remainTickets
+		isValidTickets := checkvaliTicket(userTickets, remainTickets)
 
 		if !isValidTickets {
 			fmt.Printf("we have only %v remaining tickets\n", remainTickets)
@@ -47,9 +44,9 @@ func main() {
 
 		fmt.Println("Remaining tickets are:", remainTickets)
 
-		fmt.Println("booking are:", bookings)
+		fmt.Println("Teams attending to event:", bookings)
 
-		noTicketsRemaining := remainTickets == 0
+		noTicketsRemaining := checkticketavail(remainTickets)
 
 		// if remainTickets == 0 {
 		// 	fmt.Println("Sold Out")
@@ -63,4 +60,30 @@ func main() {
 
 	}
 
+}
+
+func greet(applicationName string, totalTickets int, remainTickets uint) {
+
+	fmt.Println("Welcome to ", applicationName)
+	fmt.Printf("we have total of %v tickets , available tickets are %v\n", totalTickets, remainTickets)
+
+}
+
+func checkvalidname(userName string) bool {
+
+	isValidName := len(userName) > 3
+
+	return isValidName
+
+}
+
+func checkvaliTicket(userTickets uint, remainTickets uint) bool {
+	isValidTickets := userTickets <= remainTickets
+	return isValidTickets
+}
+
+func checkticketavail(remainTickets uint) bool {
+	noTicketsRemaining := remainTickets == 0
+
+	return noTicketsRemaining
 }
